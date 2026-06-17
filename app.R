@@ -16,6 +16,7 @@ fmt_hm <- function(m) sprintf("%dh %02dm", round(m) %/% 60, round(m) %% 60)
 
 ui <- page_navbar(
   title = "Log-laboral",
+  tags$head(tags$style(".dataTable { font-size: 12px; }")),
   
   nav_panel(
     "Carga",
