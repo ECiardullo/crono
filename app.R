@@ -102,7 +102,9 @@ server <- function(input, output, session) {
     searching = FALSE,
     info = FALSE,
     ordering = FALSE,
-    scrollX = TRUE
+    scrollX = TRUE,
+    scrollY = "400px",
+    scrollCollapse = TRUE
   ))
   
   output$tabla_proyecto <- renderDataTable({
@@ -166,7 +168,9 @@ server <- function(input, output, session) {
     searching = FALSE,
     info = FALSE,
     ordering = FALSE,
-    scrollX = TRUE
+    scrollX = TRUE,
+    scrollY = "400px",
+    scrollCollapse = TRUE
   ))
   
   output$torta <- renderPlot({
