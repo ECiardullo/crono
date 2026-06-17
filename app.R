@@ -141,6 +141,13 @@ server <- function(input, output, session) {
     m <- merge(m, reu, by = "semana", all.x = TRUE)
     m$reu_min[is.na(m$reu_min)] <- 0
     m <- m[order(m$semana), ]
+    total_row <- data.frame(
+      semana = "Total",
+      minutos = sum(m$minutos),
+      dias = length(unique(d$fecha)),
+      reu_min = sum(m$reu_min)
+    )
+    m <- rbind(m, total_row)
     data.frame(Semana = m$semana, Total = fmt_hm(m$minutos),
                `Prom./dia` = fmt_hm(m$minutos / m$dias),
                `% reuniones` = sprintf("%.1f%%", 100 * m$reu_min / m$minutos),
