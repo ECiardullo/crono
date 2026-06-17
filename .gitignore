@@ -9,5 +9,6 @@
  
 # Credenciales de Google (service account) — NUNCA subir al repo.
 # renv.lock no es .json, asi que igual se versiona.
-*.json
+crono-key.json
 .secrets/
+.positai
