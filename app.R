@@ -56,13 +56,13 @@ ui <- page_navbar(
       
       card(
         card_header("Resumen semanal"),
-        style = "max-height: fit-content;",
+        style = "height: auto;",
         DT::dataTableOutput("tabla_semanal")
       ),
       
       card(
         card_header("Por proyecto"),
-        style = "max-height: fit-content;",
+        style = "height: auto;",
         DT::dataTableOutput("tabla_proyecto")
       )
     ),
