@@ -3,10 +3,11 @@ library(bslib)
 library(googlesheets4)
 library(ggplot2)
 library(DT)
+library(jsonlite)
 
 SHEET_ID <- "1e0GRCNDVOphb4em7p5OkbXc_W3mDLKxjQsRHo__I3vs"
 # Auth con service account.
-gs4_auth(path = Sys.getenv("CRONO_KEY"))
+gs4_auth(path = jsonlite::fromJSON(Sys.getenv("CRONO_KEY")))
 
 proyectos_conocidos <- c("PLMS", "ROM", "PROTEGIC", "BAH", "PARSTATS")
 
