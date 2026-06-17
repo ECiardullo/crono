@@ -1,0 +1,13 @@
+# RStudio
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+ 
+# Variables de entorno locales
+.Renviron
+ 
+# Credenciales de Google (service account) — NUNCA subir al repo.
+# renv.lock no es .json, asi que igual se versiona.
+*.json
+.secrets/
