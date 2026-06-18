@@ -71,6 +71,30 @@ ui <- page_navbar(
       card_header("Tiempo por proyecto"),
       plotOutput("torta", height = "500px")
     )
+  ),
+  
+  nav_panel(
+    "Resumen",
+    layout_columns(
+      col_widths = c(6, 6),
+      value_box(title = "Saldo de horas", value = textOutput("saldo"), theme = "primary"),
+      value_box(title = "Dias trabajados", value = textOutput("dias_trabajados"), theme = "secondary")
+    ),
+    layout_columns(
+      col_widths = c(6, 6),
+      value_box(title = "Total registrado", value = textOutput("total_horas"), theme = "secondary"),
+      value_box(title = "Promedio diario", value = textOutput("promedio_diario"), theme = "secondary")
+    ),
+    layout_columns(
+      col_widths = c(6, 6),
+      value_box(title = "% en reuniones", value = textOutput("pct_reuniones"), theme = "secondary"),
+      value_box(title = "Hs en reuniones", value = textOutput("hs_reuniones"), theme = "secondary")
+    ),
+    layout_columns(
+      col_widths = c(6, 6),
+      value_box(title = "Proyecto top", value = textOutput("proyecto_top"), theme = "secondary"),
+      value_box(title = "Proyectos distintos", value = textOutput("n_proyectos"), theme = "secondary")
+    )
   )
 )
 
@@ -193,6 +217,46 @@ server <- function(input, output, session) {
       xlim(0, max(agg$horas) * 1.2) +
       labs(title = "Tiempo por proyecto", x = "horas", y = NULL) +
       theme_minimal()
+  })
+  
+  output$saldo <- renderText({
+    d <- datos()
+    dias <- length(unique(d$fecha))
+    esperado <- dias * 4 * 60
+    saldo <- sum(d$minutos) - esperado
+    signo <- if (saldo >= 0) "+" else "-"
+    paste0(signo, fmt_hm(abs(saldo)))
+  })
+  
+  output$dias_trabajados <- renderText({
+    length(unique(datos()$fecha))
+  })
+  
+  output$total_horas <- renderText({
+    fmt_hm(sum(datos()$minutos))
+  })
+  
+  output$promedio_diario <- renderText({
+    d <- datos()
+    fmt_hm(sum(d$minutos) / length(unique(d$fecha)))
+  })
+  
+  output$pct_reuniones <- renderText({
+    d <- datos()
+    sprintf("%.1f%%", 100 * sum(d$minutos[d$es_reunion]) / sum(d$minutos))
+  })
+  
+  output$hs_reuniones <- renderText({
+    fmt_hm(sum(datos()$minutos[datos()$es_reunion]))
+  })
+  
+  output$proyecto_top <- renderText({
+    agg <- aggregate(minutos ~ proyecto, datos(), sum)
+    agg$proyecto[which.max(agg$minutos)]
+  })
+  
+  output$n_proyectos <- renderText({
+    length(unique(datos()$proyecto))
   })
 }
 
